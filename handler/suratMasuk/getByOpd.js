@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
         const data = await api.get(`/surat-masuk?kodeopd=${kodeopd}`,
             {
                 headers: {
-                    'Authorization': token
+                    'Authorization': token || ''
                 }
             });
         res.send(data.data)
