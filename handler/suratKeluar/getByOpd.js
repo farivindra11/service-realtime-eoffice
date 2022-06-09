@@ -1,18 +1,23 @@
 const apiAdapter = require('../../_helpers/apiAdapter');
-// const { API_GATEWAY_EOFFICE } = process.env;
+const { API_GATEWAY_EOFFICE } = process.env;
 
-const api = apiAdapter('https://siharko.magetan.go.id/api');
+const api = apiAdapter(API_GATEWAY_EOFFICE);
 
-module.exports = async (req, res)=> {
+module.exports = async (req, res) => {
 
     try {
-    //   console.log('masuk sini');
-    //   const kodeopd = req.query.kodeopd
-    //   console.log(kodeopd, 'asdfa');
-    console.log('tes');
+        const kodeopd = req.query.kodeopd
+        const token = req.headers.authorization
 
-        const data = await api.get(`/harga-konsumen/publik/komoditas/populer`);
-       return res.json({data:data});
+        const data = await api.get(`/surat-keluar?kodeopd=${kodeopd}`,
+            {
+                headers: {
+                    'Authorization': token
+                }
+            });
+        res.send(data.data)
+
+        
     } catch (error) {
         console.log(error);
     }
