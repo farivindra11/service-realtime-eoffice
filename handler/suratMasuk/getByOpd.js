@@ -6,6 +6,7 @@ const api = apiAdapter(API_GATEWAY_EOFFICE);
 module.exports = async (req, res) => {
 
     try {
+        console.log('masuk api sini from frontend');
         const kodeopd = req.query.kodeopd
         const token = req.headers.authorization
 
@@ -15,9 +16,10 @@ module.exports = async (req, res) => {
                     'Authorization': token || ''
                 }
             });
-        res.send(data.data)
+        io.emit('firstEven', data.data)
+        res.status(200);
 
-        
+
     } catch (error) {
         console.log(error);
     }
