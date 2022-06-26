@@ -15,9 +15,12 @@
     "dotenv": "^16.0.1",
     "express": "~4.16.1",
     "morgan": "~1.9.1",
+    "npm": "^8.12.2",
+    "request": "^2.88.2",
     "socket.io": "^4.5.1"
   },
   "devDependencies": {
+    "firebase": "^9.8.4",
     "nodemon": "^2.0.16"
   }
 }
