@@ -80,15 +80,15 @@ const getUser = async (opdPenerima) => {     //============================== GE
   return resp.find((user) => user.kode_opd === opdPenerima)
 }
 
-
-io.on('connection', (socket) => {     //================ connection socket.io ===============
+//================ connection socket.io ===============
+io.on('connection', (socket) => {     
   console.log('user connected')
 
   socket.on("newUser", (data) => {    //================ add user connected ================
     addNewUser(data, socket.id)
   })
 
-  socket.on("sendNotif", ({ sender, opdPenerima, pesan }) => {    //============== take event from socket client ===============
+  socket.on("sendNotif", ({ sender, opdPenerima, pesan, type }) => {    //============== take event from socket client ===============
     const receiver = getUser(opdPenerima);
 
     receiver.then(async (res) => {
@@ -96,7 +96,8 @@ io.on('connection', (socket) => {     //================ connection socket.io ==
         await api.post('/user-notif', {
           sender: sender,
           pesan: pesan,
-          opd_penerima: opdPenerima
+          opd_penerima: opdPenerima,
+          type: type
         })
         const data = await api.get(`/user-notif?kodeopd=${opdPenerima}`)
         io.to(res.socketId).emit('getNotif', data.data.data)    //======================= send event notif to socket client ============
@@ -104,7 +105,8 @@ io.on('connection', (socket) => {     //================ connection socket.io ==
         await api.post('/user-notif', {
           sender: sender,
           pesan: pesan,
-          opd_penerima: opdPenerima
+          opd_penerima: opdPenerima,
+          type: type
         })
       }
     })
