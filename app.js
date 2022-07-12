@@ -10,7 +10,7 @@ const { Server } = require("socket.io");
 const apiAdapter = require('./_helpers/apiAdapter')
 
 
-const { API_GATEWAY_EOFFICE } = process.env;
+const { API_GATEWAY_EOFFICE, REACT_PROXY } = process.env;
 const api = apiAdapter(API_GATEWAY_EOFFICE);
 
 const indexRouter = require('./routes/index');
@@ -33,7 +33,7 @@ app.use('/api-gateway', indexRouter);
 
 global.io = new Server(sslServer, {     //=============== proxy ====================
   cors: {
-    origin: 'http://localhost:3000'
+    origin: REACT_PROXY
   }
 });
 
