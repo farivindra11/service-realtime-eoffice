@@ -88,7 +88,7 @@ io.on('connection', (socket) => {
     addNewUser(data, socket.id)
   })
 
-  socket.on("sendNotif", ({ sender, opdPenerima, pesan, type }) => {    //============== take event from socket client ===============
+  socket.on("sendNotif", ({ sender, opdPenerima, pesan, type, id_surat }) => {    //============== take event from socket client ===============
     const receiver = getUser(opdPenerima);
 
     receiver.then(async (res) => {
@@ -97,7 +97,7 @@ io.on('connection', (socket) => {
           sender: sender,
           pesan: pesan,
           opd_penerima: opdPenerima,
-          type: type
+          type: type,
         })
         const data = await api.get(`/user-notif?kodeopd=${opdPenerima}`)
         io.to(res.socketId).emit('getNotif', data.data.data)    //======================= send event notif to socket client ============
