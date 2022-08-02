@@ -90,6 +90,7 @@ io.on('connection', (socket) => {
 
   socket.on("sendNotif", ({ sender, opdPenerima, pesan, type, id_surat }) => {    //============== take event from socket client ===============
     const receiver = getUser(opdPenerima);
+    console.log(id_surat, 'ini id surat');
 
     receiver.then(async (res) => {
       if (res) {
@@ -98,6 +99,7 @@ io.on('connection', (socket) => {
           pesan: pesan,
           opd_penerima: opdPenerima,
           type: type,
+          id_surat: id_surat
         })
         const data = await api.get(`/user-notif?kodeopd=${opdPenerima}`)
         io.to(res.socketId).emit('getNotif', data.data.data)    //======================= send event notif to socket client ============
@@ -106,7 +108,8 @@ io.on('connection', (socket) => {
           sender: sender,
           pesan: pesan,
           opd_penerima: opdPenerima,
-          type: type
+          type: type,
+          id_surat: id_surat
         })
       }
     })
